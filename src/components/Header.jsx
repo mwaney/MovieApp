@@ -1,22 +1,104 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBars, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 
-function Header() {
+const APIKEY = import.meta.env.VITE_APIKEY;
+
+function fetchCurrentMovieData(currentMovieIndex, movies, setCurrentMovie) {
+  console.log("Received movies in fetchCurrentMovieData:", movies);
+  if (movies.length > 0) {
+    const currentMovieId = movies[currentMovieIndex].id;
+    axios
+      .get(
+        `https://api.themoviedb.org/3/movie/${currentMovieId}?api_key=${APIKEY}`
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setCurrentMovie(response.data);
+        } else {
+          throw new Error("Failed to fetch data");
+        }
+      })
+      .catch((error) => {
+        // Handle errors
+        console.log(error);
+        setCurrentMovie(null);
+      });
+  }
+}
+
+function Header({
+  movies,
+  fetchMovies,
+  selectedMovie,
+  currentMovie,
+  setCurrentMovie,
+}) {
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+  const [search, setSearch] = useState("");
+
+  // Wrap fetchCurrentMovieData in useCallback
+  const memoizedFetchCurrentMovieData = useCallback(() => {
+    fetchCurrentMovieData(currentMovieIndex, movies, setCurrentMovie);
+  }, [currentMovieIndex, movies, setCurrentMovie]);
+
+  useEffect(() => {
+    // Fetch data for the current movie when the component mounts
+    memoizedFetchCurrentMovieData();
+
+    const interval = setInterval(() => {
+      // Increment the index or reset to 0 if it reaches the end
+      setCurrentMovieIndex((prevIndex) =>
+        prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 10000); // Change movie every 10 seconds (10000 milliseconds)
+
+    return () => {
+      clearInterval(interval); // Clear the interval on component unmount
+    };
+  }, [memoizedFetchCurrentMovieData, movies]);
+
+  const IMAGE_URL = "https://image.tmdb.org/t/p/original";
+  const currentImageUrl =
+    (selectedMovie && selectedMovie.backdrop_path) ||
+    (currentMovie && currentMovie.backdrop_path)
+      ? `${IMAGE_URL}${
+          (selectedMovie && selectedMovie.backdrop_path) ||
+          (currentMovie && currentMovie.backdrop_path) ||
+          ""
+        }`
+      : "";
+
+  const searchMovies = (e) => {
+    e.preventDefault();
+    fetchMovies(search);
+  };
+
   return (
-    <div className="py-4 header-container">
+    <div
+      className="py-4 header-container"
+      style={{
+        backgroundImage: `url(${currentImageUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="container mx-auto flex justify-between items-start">
-        {" "}
-        {/* Added items-start */}
-        {/* Left Section */}
         <div className="flex items-center">
           <img src="src/assets/tv.png" alt="logo" className="w-8 h-8 mr-2" />
           <h2 className="text-white text-lg font-semibold">MovieBox</h2>
         </div>
-        <form className="flex items-center bg-white bg-opacity-30 rounded-lg p-2 space-x-2 w-120">
+        <form
+          onSubmit={searchMovies}
+          className="flex items-center bg-white bg-opacity-30 rounded-lg p-2 space-x-2 w-120"
+        >
           <input
             type="text"
             name="search"
             id="search"
+            onChange={(e) => setSearch(e.target.value)}
             placeholder="What do you want to watch?"
             className="bg-transparent border-none focus:outline-none w-80 px-4 py-2 rounded-lg border-2 border-gray-300"
           />
@@ -37,14 +119,10 @@ function Header() {
         </div>
       </div>
       <div className="container mx-auto mt-24 ml-21">
-        {" "}
-        {/* Added container for aside */}
         <aside className="flex flex-col items-start max-w-[404px] gap-4">
-          {/* Rest of your aside content */}
           <div className="title">
-            <h2 className="text-white text-2xl font-bold">
-              John Wick 3 : <br />
-              Parabellum
+            <h2 className="text-white text-2xl font-bold header-title">
+              {selectedMovie ? selectedMovie.title : "Loading..."}
             </h2>
           </div>
           <div className="rating flex gap-2">
@@ -62,11 +140,7 @@ function Header() {
             </div>
           </div>
           <div className="description text-white">
-            <p>
-              John Wick is on the run after killing a member of the
-              international assassins' guild, and with a $14 million price tag
-              on his head, he is the target of hit men and women everywhere.
-            </p>
+            <p>{selectedMovie ? selectedMovie.overview : "Loading..."}</p>
           </div>
           <button className="bg-red-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2">
             <span className="bg-white rounded-full p-2 w-10">
@@ -79,5 +153,13 @@ function Header() {
     </div>
   );
 }
+
+Header.propTypes = {
+  movies: PropTypes.array,
+  fetchMovies: PropTypes.func,
+  selectedMovie: PropTypes.object,
+  currentMovie: PropTypes.object,
+  setCurrentMovie: PropTypes.func, // Add setCurrentMovie prop
+};
 
 export default Header;

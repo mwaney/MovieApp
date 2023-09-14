@@ -3,13 +3,18 @@
 @tailwind utilities;
 
 .movielist-container {
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
   display: grid;
-  gap: 5rem;
+  gap: 1rem;
   grid-template-columns: repeat(4, 1fr);
 }
 
+.movie-placeholder {
+  background-color: black;
+  min-height: 143.95px;
+  color: aliceblue;
+}
 [data-testid="movie-card"] {
   text-align: center;
   padding: 1rem;
@@ -37,4 +42,11 @@
   height: 600px;
   flex-shrink: 0;
   color: white;
+  font-family: DM Sans;
+}
+
+.header-title {
+  font-size: 48px;
+  font-family: DM Sans;
+  margin: 0;
 }
