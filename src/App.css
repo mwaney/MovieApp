@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.movielist-container {
+  max-width: 80%;
+  margin: 0 auto;
+  display: grid;
+  gap: 5rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+[data-testid="movie-card"] {
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+[data-testid="movie-title"] {
+  margin-top: 0.5rem;
+}
+
+[data-testid="movie-poster"] {
+  width: 100%;
+}
+
+/* Header */
+.header-container {
+  background-image: url("./assets/Poster.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 600px;
+  flex-shrink: 0;
+  color: white;
+}
