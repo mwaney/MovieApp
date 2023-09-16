@@ -43,21 +43,21 @@ function Trailer() {
     fetchMovie();
   }, [id]);
 
-  function formatRuntime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
+  // function formatRuntime(minutes) {
+  //   const hours = Math.floor(minutes / 60);
+  //   const remainingMinutes = minutes % 60;
 
-    // Create the formatted string
-    let formattedRuntime = "";
-    if (hours > 0) {
-      formattedRuntime += hours + "h ";
-    }
-    if (remainingMinutes > 0) {
-      formattedRuntime += remainingMinutes + "m";
-    }
+  //   // Create the formatted string
+  //   let formattedRuntime = "";
+  //   if (hours > 0) {
+  //     formattedRuntime += hours + "h ";
+  //   }
+  //   if (remainingMinutes > 0) {
+  //     formattedRuntime += remainingMinutes + "m";
+  //   }
 
-    return formattedRuntime;
-  }
+  //   return formattedRuntime;
+  // }
   function getPGRating(countriesData) {
     if (countriesData && countriesData.length > 0) {
       const pgRatingCountry = countriesData.find((country) => {
@@ -87,6 +87,15 @@ function Trailer() {
   }
   const home = () => {
     navigate("/");
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
   };
 
   return (
@@ -133,11 +142,11 @@ function Trailer() {
             </p>
             {"  "} •{" "}
             <p className="movie-stats" data-testid="movie-release-date">
-              {new Date(videoData.release_date).getUTCFullYear()}
+              {formatDate(videoData.release_date)}
             </p>{" "}
             • {getPGRating(videoData.releases?.countries)} •{" "}
             <p className="movie-stats" data-testid="movie-runtime">
-              {formatRuntime(videoData?.runtime)}
+              {videoData?.runtime} minutes
             </p>
             <div className="genre">
               {videoData?.genres.map((genre, index) => (

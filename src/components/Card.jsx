@@ -18,8 +18,8 @@ function Card({ movie, onCardClick }) {
 
   const utcDate = () => {
     const releaseDate = new Date(movie.release_date);
-    const year = releaseDate.getUTCFullYear();
-    return year;
+    const formattedDate = releaseDate.toISOString().split("T")[0];
+    return formattedDate;
   };
 
   const handleClick = () => {
@@ -48,7 +48,7 @@ function Card({ movie, onCardClick }) {
         )}
       </Link>
       <p data-testid="movie-release-date" className="">
-        Release Date: {utcDate()}
+        {utcDate()}
       </p>
 
       <h5 data-testid="movie-title" className="">
