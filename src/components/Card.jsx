@@ -31,7 +31,7 @@ function Card({ movie, onCardClick }) {
         return "Invalid Date";
       }
       // Convert the valid date to UTC format
-      return date.toISOString();
+      return date.toISOString().split("T")[0];
     } catch (error) {
       // Handle any other errors that might occur during date processing
       console.error("Error processing date:", error);
@@ -61,11 +61,11 @@ function Card({ movie, onCardClick }) {
             alt=""
           />
         ) : (
-          <div className="movie-placeholder">No Image Found</div>
+          <img data-testid="movie-poster" src="/poster" alt="" />
         )}
       </Link>
       <p data-testid="movie-release-date" className="">
-        {utcDate()}
+        {utcDate(movie.release_date)}
       </p>
 
       <h5 data-testid="movie-title" className="">

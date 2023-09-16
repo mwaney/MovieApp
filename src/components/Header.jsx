@@ -66,11 +66,16 @@ function Header({
   }, [memoizedFetchCurrentMovieData, movies]);
 
   const IMAGE_URL = "https://image.tmdb.org/t/p/original";
-  const currentImageUrl =
+  let currentImageUrl =
     (selectedMovie?.backdrop_path || currentMovie?.backdrop_path) &&
     `${IMAGE_URL}${
       selectedMovie?.backdrop_path || currentMovie?.backdrop_path
     }`;
+
+  // Check if there's no backdrop path available (no poster), and use a hardcoded URL
+  if (!currentImageUrl) {
+    currentImageUrl = "/Poster.png";
+  }
 
   const searchMovies = async (e) => {
     e.preventDefault();
