@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .movielist-container {
   max-width: 90%;
   margin: 0 auto;
@@ -722,4 +727,65 @@ main {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+@media (max-width: 768px) {
+  .custom-container {
+    flex-direction: column; /* Stack logo, search, and sign-in vertically */
+    align-items: center; /* Center align items */
+    padding: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .custom-logo-text {
+    font-size: 1rem; /* Reduce font size for smaller screens */
+  }
+
+  .custom-search-form {
+    width: 100%; /* Full width for search form */
+    max-width: 400px; /* Limit form width */
+    margin-top: 1rem; /* Add spacing below the logo */
+  }
+
+  .custom-search-input {
+    width: 100%; /* Full width for input */
+  }
+  .custom-bars-icon {
+    display: none;
+  }
+  .custom-details-container {
+    margin-top: 0.5rem; /* Adjust as needed to move it closer */
+    margin-left: 0;
+    padding-left: 1rem;
+  }
+
+  [data-testid="movie-card"] {
+    width: 100%;
+  }
+  .movielist-container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .menu {
+    display: none;
+  }
+
+  .movie-details {
+    flex-direction: column;
+  }
+  .lower {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dropdown-content {
+    width: 200px;
+    height: 30px;
+  }
+  .featured {
+    font-size: 1rem;
+  }
+  .seemore {
+    font-size: small;
+  }
 }

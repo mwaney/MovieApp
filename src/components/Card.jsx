@@ -56,7 +56,7 @@ function Card({ movie, onCardClick }) {
       </h5>
       <Rating className="card-rate" selectedMovie={movie} />
 
-      <Genres className="text-gray-400" apiKey={APIKEY} movieId={movie.id} />
+      <Genres className="" apiKey={APIKEY} movieId={movie.id} />
     </div>
   );
 }

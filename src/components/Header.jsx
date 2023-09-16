@@ -129,15 +129,11 @@ function Header({
         <div className="custom-details-container">
           <aside className="custom-details">
             <div className="custom-title">
-              <h2 className="custom-header-title">
+              <h2 className="custom-header-title" data-testid="movie-title">
                 {selectedMovie ? selectedMovie.title : "Loading..."}
               </h2>
             </div>
-            <Rating
-              data-testid="movie-title"
-              className="header-rate"
-              selectedMovie={selectedMovie}
-            />
+            <Rating className="header-rate" selectedMovie={selectedMovie} />
             <div className="custom-description" data-testid="movie-overview">
               <p>
                 {selectedMovie

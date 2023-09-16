@@ -159,7 +159,7 @@ function Trailer() {
           <div className="review" data-testid="movie-overview">
             {videoData?.overview}
           </div>
-          <div className="lower flex space-x-4">
+          <div className="lower">
             <div className="credits">
               <p>
                 Director: <span> Joseph Kosinski</span>
