@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-function Rating({ selectedMovie }) {
+function Rating({ selectedMovie, className }) {
   function generateRandomRating() {
     const minRating = 60; // Minimum rating (60%)
     const maxRating = 100; // Maximum rating (100%)
@@ -16,19 +16,15 @@ function Rating({ selectedMovie }) {
   const randomRating = generateRandomRating();
 
   return (
-    <div className="rating flex gap-2">
-      <div className="imdb-rating flex items-center mr-6">
-        <img src="src/assets/IMDB.png" alt="" className="w-8 h-4 mr-2" />
-        <p>{(selectedMovie?.vote_average * 10).toFixed(1)}/100</p>
+    <div className={`rating ${className}`}>
+      <div className="imdb-rating center">
+        <img src="src/assets/IMDB.png" alt="" className="imdb-img" />
+        {(selectedMovie?.vote_average * 10).toFixed(1)}/100
       </div>
       {selectedMovie && ( // Conditional rendering
-        <div className="rt-rating flex items-center">
-          <img
-            src="src/assets/rotten_tomato.png"
-            alt=""
-            className="w-4 h-4 mr-2"
-          />
-          <p>{randomRating}%</p>
+        <div className="rt-rating center">
+          <img src="src/assets/rotten_tomato.png" alt="" className="rt-img" />
+          {randomRating}%
         </div>
       )}
     </div>
@@ -37,5 +33,6 @@ function Rating({ selectedMovie }) {
 
 Rating.propTypes = {
   selectedMovie: PropTypes.object,
+  className: PropTypes.string,
 };
 export default Rating;

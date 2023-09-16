@@ -99,11 +99,9 @@ function Home() {
         currentMovie={selectedMovie}
         setCurrentMovie={setSelectedMovie}
       />
-      <div className="flex items-center mr-20 ml-16 mt-10 mb-10">
-        <h4 className="text-black font-dm-sans font-semibold text-3xl mr-auto">
-          Featured Movie
-        </h4>
-        <a href="" className="text-rose-700 font-dm-sans text-base font-normal">
+      <div className="mid-sec">
+        <h4 className="featured">Featured Movie</h4>
+        <a href="" className="seemore">
           See more &gt;{" "}
         </a>
       </div>

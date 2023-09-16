@@ -16,7 +16,6 @@
   color: aliceblue;
 }
 [data-testid="movie-card"] {
-  text-align: center;
   padding: 1rem;
   width: 100%;
   box-sizing: border-box;
@@ -26,7 +25,7 @@
 }
 
 [data-testid="movie-title"] {
-  margin: 0.5rem;
+  margin: 2px 0;
 }
 
 [data-testid="movie-release-date"] {
@@ -363,4 +362,249 @@ main {
 
 .dropdown {
   margin-bottom: 40px;
+}
+
+/* header */
+/* Custom CSS for Header Component */
+
+.custom-header-container {
+  background-size: cover;
+  background-position: center;
+}
+
+.custom-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.custom-logo {
+  display: flex;
+  align-items: center;
+}
+
+.custom-logo-image {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+}
+
+.custom-logo-text {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.custom-search-form {
+  display: flex;
+  width: 525px;
+  padding: 6px 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  border: 2px solid var(--gray-300, #d1d5db);
+}
+
+.custom-search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 80%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: white;
+}
+
+.custom-search-button {
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+
+.custom-spinner {
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.custom-sign-in {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.custom-sign-in-text {
+  color: #fff;
+  font-family: DM Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  margin-right: 33px;
+}
+
+.custom-bars-icon {
+  width: 26px;
+  height: 26px;
+  padding: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 1rem;
+  background-color: var(--rose-700, #be123c);
+}
+
+.custom-details-container {
+  margin-top: 4rem;
+  margin-left: 0;
+  padding-left: 1rem; /* Adjust this as needed */
+}
+
+.custom-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 404px;
+}
+
+.custom-header-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+.custom-description {
+  color: #fff;
+  font-family: DM Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  width: 362px;
+  margin-bottom: 0;
+}
+
+.custom-watch-trailer {
+  display: flex;
+  padding: 6px 16px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  background: #be123c;
+  width: 169px;
+  margin-bottom: 160px;
+  text-decoration: none;
+  color: #fff;
+  font-family: DM Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 171.429% */
+  text-transform: uppercase;
+}
+
+.custom-play-icon {
+  background: white;
+  border-radius: 50%;
+  padding: 0.25rem;
+  width: 20px;
+}
+
+.custom-play-icon-text {
+  color: red;
+  font-size: 1.25rem;
+  margin-left: 3px;
+}
+
+.center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: center;
+}
+.rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: center;
+  font-family: DM Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+.rt-rating > img,
+.imdb-rating > img {
+  margin-right: 5px;
+  margin-left: 6px;
+}
+
+.container-header {
+  margin-right: 100px;
+  margin-left: 10px;
+}
+.mid-sec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 100px;
+}
+
+.featured {
+  color: #000;
+  font-family: DM Sans;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.seemore {
+  color: var(--rose-700, #be123c);
+  font-family: DM Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.card-rate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #111827;
+  font-family: DM Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.header-rate {
+  color: #fff;
+  font-family: DM Sans;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
 }

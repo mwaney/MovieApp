@@ -35,15 +35,6 @@ function Card({ movie, onCardClick }) {
       <div className={badgeClass} onClick={handleClick}>
         <FontAwesomeIcon icon={faHeart} />
       </div>
-      {/* {movie.poster_path ? (
-        <img
-          data-testid="movie-poster"
-          src={`${IMAGE_URL}${movie.poster_path}`}
-          alt=""
-        />
-      ) : (
-        <div className="movie-placeholder">No Image Found</div>
-      )} */}
 
       <Link to={`/movies/${movie.id}`}>
         {movie.poster_path ? (
@@ -56,17 +47,14 @@ function Card({ movie, onCardClick }) {
           <div className="movie-placeholder">No Image Found</div>
         )}
       </Link>
-      <p data-testid="movie-release-date" className="p-3 m-2 text-gray-200">
+      <p data-testid="movie-release-date" className="">
         Release Date: {utcDate()}
       </p>
 
-      <h5
-        data-testid="movie-title"
-        className="text-gray-900 text-base font-bold"
-      >
+      <h5 data-testid="movie-title" className="">
         {movie.title}
       </h5>
-      <Rating className="text-gray-900 text-2xs" selectedMovie={movie} />
+      <Rating className="card-rate" selectedMovie={movie} />
 
       <Genres className="text-gray-400" apiKey={APIKEY} movieId={movie.id} />
     </div>
