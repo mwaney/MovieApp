@@ -4,6 +4,7 @@ import Card from "./Card";
 import Header from "./Header";
 import Spinner from "./Spinner";
 import Trailer from "./Trailer";
+import Footer from "./Footer";
 
 const APIKEY = import.meta.env.VITE_APIKEY;
 
@@ -132,6 +133,7 @@ function Home() {
       )}
 
       {setSelectedMovie.videos ? showTrailer() : null}
+      <Footer />
     </div>
   );
 }
