@@ -334,8 +334,12 @@ function Header({
                 {selectedMovie ? selectedMovie.title : "Loading..."}
               </h2>
             </div>
-            <Rating className="header-rate" selectedMovie={selectedMovie} />
-            <div className="custom-description">
+            <Rating
+              data-testid="movie-title"
+              className="header-rate"
+              selectedMovie={selectedMovie}
+            />
+            <div className="custom-description" data-testid="movie-overview">
               <p>
                 {selectedMovie
                   ? trimOverview(selectedMovie.overview)

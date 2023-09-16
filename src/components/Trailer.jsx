@@ -9,10 +9,8 @@ function Trailer() {
   const [videoData, setVideoData] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  console.log(id); // Get the videoId from the URL parameter
 
   useEffect(() => {
-    // Define an async function to fetch video data
     const fetchMovie = async () => {
       try {
         const { data } = await axios.get(`${URL}/movie/${id}`, {
@@ -42,7 +40,7 @@ function Trailer() {
         return null;
       }
     };
-    fetchMovie(); // Call the function to fetch video data
+    fetchMovie();
   }, [id]);
 
   function formatRuntime(minutes) {
@@ -95,8 +93,8 @@ function Trailer() {
     <div className="container">
       <aside className="menu">
         <div className="logo" onClick={home}>
-          <img src="../src/assets/tv.png" alt="logo" className="w-8 h-8 mr-2" />
-          <h2 className="text-gray-900 ml-2 text-3xl font-bold">MovieBox</h2>
+          <img src="../src/assets/tv.png" alt="logo" className="logo-img" />
+          <h2 className="logotext">MovieBox</h2>
         </div>
         <ul>
           <li className="menu-items">
@@ -122,23 +120,23 @@ function Trailer() {
           </div>
         </ul>
 
-        <div className="flex items-center mt-6">
+        <div className="logout center">
           <img src="../src/assets/Logout.png" alt="" /> <span>Log Out</span>
         </div>
       </aside>
       {videoData ? (
-        <main className="flex-1">
+        <main className="">
           <div className="video">{playTrailer()}</div>
-          <div className="flex items-center justify-start movie-details">
-            <p data-testid="movie-title" className="mr-2">
+          <div className="movie-details">
+            <p data-testid="movie-title" className="movie-stats">
               {videoData?.title}
             </p>
             {"  "} •{" "}
-            <p className="mr-2" data-testid="movie-release-date">
+            <p className="movie-stats" data-testid="movie-release-date">
               {new Date(videoData.release_date).getUTCFullYear()}
             </p>{" "}
             • {getPGRating(videoData.releases?.countries)} •{" "}
-            <p className="mr-2" data-testid="movie-runtime">
+            <p className="movie-stats" data-testid="movie-runtime">
               {formatRuntime(videoData?.runtime)}
             </p>
             <div className="genre">
@@ -164,10 +162,11 @@ function Trailer() {
                 Stars: <span>Tom Cruise, Jennifer Connelly, Miles Teller</span>
               </p>
 
-              <div className="dropdown flex space-x-4">
+              <div className="dropdown">
                 <button className="dropdown-button">Top rated movie #65</button>
                 <div className="dropdown-content">
                   <a href="#">Award 9 nominations</a>
+                  <img src="../src/assets/Expand Arrow.png" alt="" />
                 </div>
               </div>
             </div>
@@ -184,7 +183,7 @@ function Trailer() {
               <img
                 src="../src/assets/Rectangle 37.png"
                 alt=""
-                className="mt-4"
+                className="lastImg"
               />
             </div>
           </div>
