@@ -16,11 +16,28 @@ function Card({ movie, onCardClick }) {
     onCardClick(movie);
   };
 
-  const utcDate = () => {
-    const releaseDate = new Date(movie.release_date);
-    const formattedDate = releaseDate.toISOString().split("T")[0];
-    return formattedDate;
-  };
+  // const utcDate = () => {
+  //   console.log(movie.release_date);
+  //   const releaseDate = new Date(movie.release_date);
+  //   const formattedDate = releaseDate.toISOString().split("T")[0];
+  //   return formattedDate;
+  // };
+  function utcDate(dateString) {
+    try {
+      // Attempt to create a Date object from the dateString
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        // Handle the case where the date is invalid (e.g., dateString is not a valid date)
+        return "Invalid Date";
+      }
+      // Convert the valid date to UTC format
+      return date.toISOString();
+    } catch (error) {
+      // Handle any other errors that might occur during date processing
+      console.error("Error processing date:", error);
+      return "Error"; // You can customize the error message as needed
+    }
+  }
 
   const handleClick = () => {
     setIsClicked(!isClicked);

@@ -72,19 +72,37 @@ function Trailer() {
     return "PG Rating Not Available";
   }
 
+  // function playTrailer() {
+  //   console.log(videoData);
+  //   const trailer = videoData.videos.find(
+  //     (vid) => vid.name === "Official Trailer"
+  //   );
+  //   const key = trailer ? trailer.key : videoData.videos[0].key;
+  //   return (
+  //     <YouTube
+  //       videoId={key}
+  //       opts={{ width: "100%", height: "500px", playerVars: { autoplay: 1 } }}
+  //     />
+  //   );
+  // }
+
   function playTrailer() {
-    console.log(videoData);
-    const trailer = videoData.videos.find(
-      (vid) => vid.name === "Official Trailer"
-    );
-    const key = trailer ? trailer.key : videoData.videos[0].key;
-    return (
-      <YouTube
-        videoId={key}
-        opts={{ width: "100%", height: "500px", playerVars: { autoplay: 1 } }}
-      />
-    );
+    if (videoData && videoData.videos && videoData.videos.length > 0) {
+      const trailer = videoData.videos.find(
+        (vid) => vid.name === "Official Trailer"
+      );
+      const key = trailer ? trailer.key : videoData.videos[0].key;
+      return (
+        <YouTube
+          videoId={key}
+          opts={{ width: "100%", height: "500px", playerVars: { autoplay: 1 } }}
+        />
+      );
+    } else {
+      return <p>No trailer available</p>; // Add an appropriate message when no trailer is found
+    }
   }
+
   const home = () => {
     navigate("/");
   };

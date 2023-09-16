@@ -12,32 +12,25 @@ function Home() {
   const [moviesData, setMoviesData] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const URL = "https://api.themoviedb.org/3";
 
   useEffect(() => {
-    // fetchMovies();
-    fetchTopRatedMovies();
-  }, []);
-
-  // const fetchMovies = async (searchKey) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const type = searchKey ? "search" : "discover";
-  //     const { data } = await axios.get(`${URL}/${type}/movie`, {
-  //       params: {
-  //         api_key: APIKEY,
-  //         query: searchKey,
-  //       },
-  //     });
-  //     setMoviesData(data.results);
-  //   } catch (error) {
-  //     // Handle error
-  //     console.error("Error fetching movies", error);
-  //   } finally {
-  //     setIsLoading(false); // Set loading to false when fetching is complete
-  //   }
-  // };
+    if (initialLoad) {
+      fetchTopRatedMovies(); // Fetch top-rated movies only on initial load
+      setInitialLoad(false);
+    } else {
+      if (searchQuery) {
+        // If search query is provided, fetch movies by search
+        fetchMovies(searchQuery);
+      } else {
+        // If no search query, fetch top-rated movies again
+        fetchTopRatedMovies();
+      }
+    }
+  }, [searchQuery, initialLoad]);
 
   const fetchTopRatedMovies = async () => {
     setIsLoading(true);
@@ -45,16 +38,37 @@ function Home() {
       const { data } = await axios.get(`${URL}/movie/top_rated`, {
         params: {
           api_key: APIKEY,
-          language: "en-US", // You can change the language as needed
-          page: 1, // Adjust the page number if you want more results
+          language: "en-US",
+          page: 1,
         },
       });
       setMoviesData(data.results);
     } catch (error) {
-      // Handle error
       console.error("Error fetching top-rated movies", error);
     } finally {
-      setIsLoading(false); // Set loading to false when fetching is complete
+      setIsLoading(false);
+    }
+  };
+
+  const fetchMovies = async (searchKey) => {
+    setIsLoading(true);
+    try {
+      const type = searchKey ? "search" : "discover";
+      const { data } = await axios.get(`${URL}/${type}/movie`, {
+        params: {
+          api_key: APIKEY,
+          query: searchKey || "top_rated",
+        },
+      });
+      setMoviesData(data.results);
+      console.log("Fetched data:", data.results);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching movies", error);
+      setIsLoading(false);
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,11 +125,21 @@ function Home() {
     }
   };
 
+  const handleSearch = async (searchKey) => {
+    setSearchQuery(searchKey);
+    try {
+      await fetchMovies(searchKey);
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching movies", error);
+    }
+  };
+
   return (
     <div>
       <Header
         movies={moviesData}
-        fetchMovies={fetchTopRatedMovies}
+        fetchMovies={handleSearch}
         selectedMovie={selectedMovie}
         currentMovie={selectedMovie}
         setCurrentMovie={setSelectedMovie}
@@ -132,7 +156,7 @@ function Home() {
         <div className="movielist-container">{showMovies()}</div>
       )}
 
-      {setSelectedMovie.videos ? showTrailer() : null}
+      {selectedMovie?.videos ? showTrailer() : null}
       <Footer />
     </div>
   );

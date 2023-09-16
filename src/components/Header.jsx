@@ -72,12 +72,17 @@ function Header({
       selectedMovie?.backdrop_path || currentMovie?.backdrop_path
     }`;
 
-  const searchMovies = (e) => {
+  const searchMovies = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    fetchMovies(search)
-      .then(() => setIsLoading(false))
-      .catch(() => setIsLoading(false));
+    try {
+      await fetchMovies(search);
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching movies", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   function trimOverview(overview) {
