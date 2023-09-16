@@ -3,11 +3,12 @@ import { faSearch, faBars, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Rating from "./Rating";
 
 const APIKEY = import.meta.env.VITE_APIKEY;
 
 function fetchCurrentMovieData(currentMovieIndex, movies, setCurrentMovie) {
-  console.log("Received movies in fetchCurrentMovieData:", movies);
   if (movies.length > 0) {
     const currentMovieId = movies[currentMovieIndex].id;
     axios
@@ -38,6 +39,8 @@ function Header({
 }) {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // const navigate = useNavigate();
 
   // Wrap fetchCurrentMovieData in useCallback
   const memoizedFetchCurrentMovieData = useCallback(() => {
@@ -48,36 +51,65 @@ function Header({
     // Fetch data for the current movie when the component mounts
     memoizedFetchCurrentMovieData();
 
-    const interval = setInterval(() => {
-      // Increment the index or reset to 0 if it reaches the end
-      setCurrentMovieIndex((prevIndex) =>
-        prevIndex === movies.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 10000); // Change movie every 10 seconds (10000 milliseconds)
+    let intervalId; // Declare a variable to hold the interval ID
 
+    // Create a new interval whenever `movies` changes
+    const createInterval = () => {
+      intervalId = setInterval(() => {
+        // Increment the index or reset to 0 if it reaches the end
+        setCurrentMovieIndex((prevIndex) =>
+          prevIndex === movies.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 10000); // Change movie every 10 seconds (10000 milliseconds)
+    };
+
+    createInterval(); // Initial interval creation
+
+    // Clear the interval on component unmount and when `movies` changes
     return () => {
-      clearInterval(interval); // Clear the interval on component unmount
+      clearInterval(intervalId);
     };
   }, [memoizedFetchCurrentMovieData, movies]);
 
   const IMAGE_URL = "https://image.tmdb.org/t/p/original";
   const currentImageUrl =
-    (selectedMovie && selectedMovie.backdrop_path) ||
-    (currentMovie && currentMovie.backdrop_path)
-      ? `${IMAGE_URL}${
-          (selectedMovie && selectedMovie.backdrop_path) ||
-          (currentMovie && currentMovie.backdrop_path) ||
-          ""
-        }`
-      : "";
+    (selectedMovie?.backdrop_path || currentMovie?.backdrop_path) &&
+    `${IMAGE_URL}${
+      selectedMovie?.backdrop_path || currentMovie?.backdrop_path
+    }`;
 
   const searchMovies = (e) => {
     e.preventDefault();
-    fetchMovies(search);
+    setIsLoading(true);
+    fetchMovies(search)
+      .then(() => setIsLoading(false))
+      .catch(() => setIsLoading(false));
   };
+
+  // const handleWatchTrailerClick = async (selectedMovie) => {
+  //   // Check if selectedMovie and selectedMovie.videos exist
+  //   if (selectedMovie && selectedMovie.videos) {
+  //     console.log(selectedMovie.videos);
+  //     const trailer = await selectedMovie.videos.results.find(
+  //       (vid) => vid.name === "Official Trailer"
+  //     );
+
+  //     if (trailer) {
+  //       const videoId = trailer.key;
+
+  //       // Use the navigate function to navigate to the Trailer component and pass the videoId as a parameter
+  //       navigate(`/trailer/${videoId}`);
+  //     } else {
+  //       console.error("Official Trailer not found");
+  //     }
+  //   } else {
+  //     console.error("No selected movie or video data available");
+  //   }
+  // };
 
   return (
     <div
+      data-testid="movie-poster"
       className="py-4 header-container"
       style={{
         backgroundImage: `url(${currentImageUrl})`,
@@ -92,7 +124,7 @@ function Header({
         </div>
         <form
           onSubmit={searchMovies}
-          className="flex items-center bg-white bg-opacity-30 rounded-lg p-2 space-x-2 w-120"
+          className="flex items-center bg-transparent border-2 border-white rounded-lg p-2 space-x-2 w-120"
         >
           <input
             type="text"
@@ -100,18 +132,23 @@ function Header({
             id="search"
             onChange={(e) => setSearch(e.target.value)}
             placeholder="What do you want to watch?"
-            className="bg-transparent border-none focus:outline-none w-80 px-4 py-2 rounded-lg border-2 border-gray-300"
+            className="bg-transparent border-none focus:outline-none w-80 px-4 py-2 rounded-lg border-2"
           />
           <button
             type="submit"
             className="flex items-center justify-center w-10 h-10"
           >
-            {" "}
-            <FontAwesomeIcon icon={faSearch} />
+            {isLoading ? (
+              // Show a loading indicator while isLoading is true
+              <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+            ) : (
+              // Show the search icon when isLoading is false
+              <FontAwesomeIcon icon={faSearch} />
+            )}
           </button>
         </form>
         <div className="text-white flex items-center">
-          <p className="mr-4">Sign in</p>
+          <p className="mr-4 font-bold">Sign in</p>
           <FontAwesomeIcon
             icon={faBars}
             className="w-6 h-6 rounded-full bg-red-500 p-2"
@@ -125,29 +162,23 @@ function Header({
               {selectedMovie ? selectedMovie.title : "Loading..."}
             </h2>
           </div>
-          <div className="rating flex gap-2">
-            <div className="imdb-rating flex items-center mr-6">
-              <img src="src/assets/IMDB.png" alt="" className="w-8 h-4 mr-2" />
-              <p className="text-white">86.0</p>
-            </div>
-            <div className="rt-rating flex items-center">
-              <img
-                src="src/assets/rotten_tomato.png"
-                alt=""
-                className="w-4 h-4 mr-2"
-              />
-              <p className="text-white">97%</p>
-            </div>
-          </div>
+          <Rating selectedMovie={selectedMovie} />
+
           <div className="description text-white">
             <p>{selectedMovie ? selectedMovie.overview : "Loading..."}</p>
           </div>
-          <button className="bg-red-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2">
+          <Link
+            to={`/movies/${selectedMovie?.id}`}
+            className="bg-red-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2"
+          >
             <span className="bg-white rounded-full p-2 w-10">
-              <FontAwesomeIcon icon={faPlay} className="text-red-700" />
+              <FontAwesomeIcon
+                icon={faPlay}
+                className="text-red-700 text-2xl mr-4"
+              />
             </span>
             <span>WATCH TRAILER</span>
-          </button>
+          </Link>
         </aside>
       </div>
     </div>
