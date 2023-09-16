@@ -93,24 +93,24 @@ function Trailer() {
     <div className="container">
       <aside className="menu">
         <div className="logo" onClick={home}>
-          <img src="../src/assets/tv.png" alt="logo" className="logo-img" />
+          <img src="/tv.png" alt="logo" className="logo-img" />
           <h2 className="logotext">MovieBox</h2>
         </div>
         <ul>
           <li className="menu-items">
-            <img src="../src/assets/Home.png" alt="" />
+            <img src="/Home.png" alt="" />
             Home
           </li>
           <li className="menu-items active">
-            <img src="../src/assets/Movie Projector.png" alt="" />
+            <img src="/Movie Projector.png" alt="" />
             Movies
           </li>
           <li className="menu-items">
-            <img src="../src/assets/TV Show.png" alt="" />
+            <img src="/TV Show.png" alt="" />
             TV Series
           </li>
           <li className="menu-items">
-            <img src="../src/assets/Calendar.png" alt="" />
+            <img src="/Calendar.png" alt="" />
             Upcoming
           </li>
           <div className="promo">
@@ -121,7 +121,7 @@ function Trailer() {
         </ul>
 
         <div className="logout center">
-          <img src="../src/assets/Logout.png" alt="" /> <span>Log Out</span>
+          <img src="/Logout.png" alt="" /> <span>Log Out</span>
         </div>
       </aside>
       {videoData ? (
@@ -166,25 +166,21 @@ function Trailer() {
                 <button className="dropdown-button">Top rated movie #65</button>
                 <div className="dropdown-content">
                   <a href="#">Award 9 nominations</a>
-                  <img src="../src/assets/Expand Arrow.png" alt="" />
+                  <img src="/Expand Arrow.png" alt="" />
                 </div>
               </div>
             </div>
 
             <div className="bottom-left">
               <button className="leftBtn1">
-                <img src="../src/assets/Two Tickets.png" alt="" />
+                <img src="/Two Tickets.png" alt="" />
                 See Showtimes
               </button>
               <button className="leftBtn2">
-                <img src="../src/assets/List.png" alt="" />
+                <img src="/List.png" alt="" />
                 More Watch options
               </button>
-              <img
-                src="../src/assets/Rectangle 37.png"
-                alt=""
-                className="lastImg"
-              />
+              <img src="/Rectangle 37.png" alt="" className="lastImg" />
             </div>
           </div>
         </main>

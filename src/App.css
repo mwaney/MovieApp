@@ -546,6 +546,7 @@ main {
   font-weight: 700;
   line-height: 24px;
   margin-right: 33px;
+  cursor: pointer;
 }
 
 .custom-bars-icon {

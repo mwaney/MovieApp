@@ -18,12 +18,12 @@ function Rating({ selectedMovie, className }) {
   return (
     <div className={`rating ${className}`}>
       <div className="imdb-rating center">
-        <img src="src/assets/IMDB.png" alt="" className="imdb-img" />
+        <img src="IMDB.png" alt="" className="imdb-img" />
         {(selectedMovie?.vote_average * 10).toFixed(1)}/100
       </div>
       {selectedMovie && ( // Conditional rendering
         <div className="rt-rating center">
-          <img src="src/assets/rotten_tomato.png" alt="" className="rt-img" />
+          <img src="rotten_tomato.png" alt="" className="rt-img" />
           {randomRating}%
         </div>
       )}
